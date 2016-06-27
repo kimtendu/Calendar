@@ -40,12 +40,23 @@
 		<div id="jCalendar">
 		</div>
 
-
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.js"></script>
 		<script src="index.js"></script>
+		
 		<script>
+			
 			var myfirstCalendar = new jCalendar({
-    				title: "heyhey"
+					name: "myfirstCalendar",
+    				title: "heyhey",
+					events: '[ \
+    {"title":"Event 1 ","date":"2016-06-26T12:00:00.000Z"}, \
+    {"title":"Event 2","date":"2016-06-27T12:00:00.000Z"} \
+  ]'
 				});
+				
+			console.log( moment().format("dddd, MMMM Do YYYY, h:mm:ss a") );
+			
+			
 		</script>	
 	</body>
 </html>

@@ -1,7 +1,7 @@
 function jCalendar (options){
 	
 	//Default options
-    var elem, ArrDayInMonth = [];
+    var elem =this, ArrDayInMonth = [];
     if (!options.startDate) options.startDate = new Date;
     if (!options.target) options.target = 'jCalendar';
 
@@ -15,26 +15,34 @@ function jCalendar (options){
         var j = dayInMonth(i);
         ArrDayInMonth[i] = j;
     }; // ArrDayInMonth - in that arr i know max numbers of day in all month of that year
+	
+	var $calendar = document.getElementById(options.target);
+	var $monthdiv = document.createElement('div');
+	$calendar.appendChild($monthdiv);
 
-   // console.log (ArrDayInMointh);
-    //printMonth($dateMonth);
-	
-	
+  	
 	//Controllers
 	
-	 this.printMonth = function(month){
-		if (!month) month = options.startDate.getMonth();
-		 
-		 
+	this.printControllers = function()
+	{
+		var controllers = document.createElement('div');
+		controllers.innerHTML = '<p id="prev">prev</p> <p id="next">next</p>';
+		$calendar.appendChild(controllers);
 		
+	}
+	
+	this.printMonth = function(month){
+		if (!month) month = options.startDate.getMonth();
+				
 		var $getDay = new Date($dateYear, month, 1).getDay();
 		//console.log (' $getDay - '+ $getDay);
 		var $div = document.createElement('div');
         $div.className='row';
         var $monthNum = document.createElement('div');
         $monthNum.className='col-md-7';
+		new Date($dateYear, month, 1).format('MMM');
         //$monthNum.innerHTML = ArrDayInMonth[month];// month number and not numbers of days in month
-		 $monthNum.innerHTML = '<p id="prev">prev</p>' + options.title + '<p id="next">next</p>';
+		 $monthNum.innerHTML = options.title ;
         $div.appendChild($monthNum);
 		 
 		for ($i = $getDay-1; $i >= 0; $i--){
@@ -57,12 +65,21 @@ function jCalendar (options){
         }
 		 
 		 
-        var $calendar = document.getElementById(options.target);
-		$calendar.innerHTML='';
-        $calendar.appendChild($div);
+        $monthdiv.innerHTML='';
+        $monthdiv.appendChild($div);
+		
 
     };//here i can print the month
 	
+	
+	this.getJsonSh = function(schedule){
+		options.events = JSON.parse(schedule, function(key, value) {
+		  if (key == 'date') return new Date(value);
+		  return value;
+		});
+		console.log( options.events );
+		
+	}
 	
 
 	//End controllers
@@ -87,20 +104,22 @@ function jCalendar (options){
 	
 	
 	//Init
-	
+	this.printControllers();
 	this.printMonth($dateMonth);
+	
+	this.getJsonSh(options.events);
 	
 	var elemPrv = document.getElementById('prev');
 	elemPrv.onclick = function(Event){
 		$dateMonth--;
-		this.printMonth($dateMonth);
+		elem.printMonth($dateMonth);
 		
 	};
 	
 	var elemNext = document.getElementById('next');
 	elemNext.onclick = function(Event){
 		$dateMonth++;
-		printMonth($dateMonth);
+		elem.printMonth($dateMonth);
 		
 	}
 
