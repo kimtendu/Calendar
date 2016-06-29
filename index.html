@@ -45,18 +45,57 @@
 		
 		<script>
 			
-			var myfirstCalendar = new jCalendar({
-					name: "myfirstCalendar",
-    				title: "heyhey",
-					events: '[ \
-    {"title":"Event 1 ","date":"2016-06-26T12:00:00.000Z"}, \
-    {"title":"Event 2","date":"2016-06-27T12:00:00.000Z"} \
-  ]'
-				});
-				
-			console.log( moment().format("dddd, MMMM Do YYYY, h:mm:ss a") );
-			
-			
+			var myfirstCalendar = new jCalendar(
+				{
+					"name"		: 	"myfirstCalendar",
+    				"title"		: 	"Custom Calendar Name",
+					"view"		:	{
+						"calendarView"	:	"month",
+						"weekStartTime"	:	"00:00:00",
+						"weekEndTime"	:	"03:00:00",
+						"dayStart"		:	0
+					},
+					"tpl"		:	{
+						"header":	{
+							"class"			:	"row",
+							"nextButton"	:	true,
+							"prevButton"	:	true
+							
+						},
+						"grid"	:	{
+							"dateTplClass"	: 	"someClass",
+							"TplClass" 		:	"row",
+							"RowTplClass"	:	"calendareRowTplClass",
+							"CellTplClass"	:	"calendarCellTplClass"					
+							
+						},					 
+						
+					},
+					"contents"	: 	[
+						{
+							"id"			:"123",
+							"title"			:"Event 1 ",					
+							"startdate"		:"2016-06-27T12:00:00.000Z",
+							"finishdate"	:"2016-06-27T12:00:00.000Z",
+							"enable"		:"true"
+						}, 
+						{
+							"id"			:"234",
+							"title"			:"Event 2 ",					
+							"startdate"		:"2016-06-28T12:00:00.000Z",
+							"finishdate"	:"2016-06-28T12:00:00.000Z",
+							"enable"		:"true"
+						},
+						{
+							"id"			:"345",
+							"title"			:"Event 3 ",					
+							"startdate"		:"2016-06-29T12:00:00.000Z",
+							"finishdate"	:"2016-06-29T12:00:00.000Z",
+							"enable"		:"true"
+						} 
+									]
+				}
+			);
 		</script>	
 	</body>
 </html>
