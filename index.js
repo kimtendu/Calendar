@@ -1,13 +1,26 @@
+//! jcalendar.js
+//! version : 0.0.2
+//! author : Levy Kim (kimtendu) 
+//! license : MIT
+
+
+//Things to add:
+//1) weeks view
+//2) Errors
+//3) data picker
+
 function jCalendar (options){
 	
 	//Default options
     var elem =this, ArrDayInMonth = [];
     if (!options.startDate) options.startDate = new Date;
     if (!options.target) options.target = 'jCalendar';
+	
+	if (!options.view.weekTimelineClass) options.view.weekTimelineClass = 'timeline';
+	
 
     //here im starting to build a calendar
-    var $dateYear = options.startDate.getFullYear();
-	
+    var $dateYear = options.startDate.getFullYear();	
     var $dateMonth = options.startDate.getMonth();
     var $dateDay = options.startDate.getDate();
 	
@@ -69,18 +82,52 @@ function jCalendar (options){
             $div.appendChild($out);
 			$afday++;
         }
-		
-			
-		}//Month view
-		else{
-			console.log('here will be weeks view');
-		}//week view
-		
-		 
-        $monthdiv.innerHTML='';
+		$monthdiv.innerHTML='';
         $monthdiv.appendChild($div);
 		
 		parseJsonToGrid(options.contents);
+			
+		}//Month view
+		else{
+			var $timeline = document.createElement('div');
+			$timeline.classList.add(options.view.weekTimelineClass);
+			for ( var $i=0; $i<=24; $i++){
+				var $timecell = document.createElement('div');
+				$timecell.classList.add('timecell');
+				$timecell.innerHTML=$i+':00:00';
+				$timecell.setAttribute('data-time', $i);
+				$timeline.appendChild($timecell);
+				
+			}
+			
+			$div.appendChild($timeline);
+			
+			for ( var $i=$dateDay; $i<=$dateDay+7; $i++){
+				var $timeline = document.createElement('div'),
+					$contents = options.contents;
+				$timeline.classList.add(options.view.weekTimelineClass);
+				for ( var $obj in $contents) {
+					var $startdate = new Date($contents[$obj].startdate).getDate(),//get the day
+						$monthdate = new Date($contents[$obj].startdate).getMonth(),//get the month
+						$hoursdate = new Date($contents[$obj].startdate).getHours();//get the hours
+					if ( $monthdate==$dateMonth && $startdate==$dateDay ){
+						var $tmp = document.createElement('div');
+						$tmp.classList.add('timecell');
+						$tmp.innerHtml= $contents[$obj].title;
+						$tmp.setAttribute('data-time', $hoursdate);
+						$timeline.appendChild($tmp);	
+					}
+					$div.appendChild($timeline);
+				
+				}
+			}
+			
+			$monthdiv.innerHTML='';
+        	$monthdiv.appendChild($div);
+		}//week view
+		
+		 
+        
 		
 		
 	}//print main Grid of calendar
@@ -95,7 +142,7 @@ function jCalendar (options){
 	function createElementAndPush($id, $text, $parent){
 		var $div = document.createElement('div');
 			$div.id = $id;
-			$div.innerHTML = $text
+			$div.innerHTML = $text;
 			$parent.appendChild($div);		
 	}
 		
@@ -107,7 +154,20 @@ function jCalendar (options){
 
     function printDay($dateDay, $dateToday, $month){
 		var div = document.createElement('div');
-        ($dateDay == $dateToday) ? div.className = 'col-md-1 today' : div.className = 'col-md-1';
+        //($dateDay == $dateToday) ? div.className = 'col-md-1 today' : div.className = 'col-md-1';
+		($dateDay == $dateToday) ? div.className = options.tpl.grid.CellTplClass + ' today' : div.className = options.tpl.grid.CellTplClass;
+		//($dateDay == $dateToday) ? div.classList.add(options.tpl.grid.CellTplClass) : div.classList.add(options.tpl.grid.CellTplClass);
+		div.setAttribute('data-day', $dateDay);
+		div.setAttribute('data-month', $month);
+        div.innerHTML= $dateDay;
+        return div;
+    } //func that print the days. $dateDay - this date input. $dateToday - if its in shedule.
+	
+	function printDayWeek($dateDay, $dateToday, $month){
+		var div = document.createElement('div');
+        //($dateDay == $dateToday) ? div.className = 'col-md-1 today' : div.className = 'col-md-1';
+		($dateDay == $dateToday) ? div.className = options.tpl.grid.CellTplClass + ' today' : div.className = options.tpl.grid.CellTplClass;
+		//($dateDay == $dateToday) ? div.classList.add(options.tpl.grid.CellTplClass) : div.classList.add(options.tpl.grid.CellTplClass);
 		div.setAttribute('data-day', $dateDay);
 		div.setAttribute('data-month', $month);
         div.innerHTML= $dateDay;
@@ -115,7 +175,8 @@ function jCalendar (options){
     } //func that print the days. $dateDay - this date input. $dateToday - if its in shedule.
 	
 	function parseJsonToGrid($contents){
-		var $gridsElements = document.querySelectorAll('#grid .col-md-1');
+
+		var	$gridsElements = document.querySelectorAll('#grid .'+ options.tpl.grid.CellTplClass);
 		
 		for ( var i = 0; i < $gridsElements.length; i++){
 			var $element = $gridsElements[i];			
@@ -126,8 +187,11 @@ function jCalendar (options){
 					$elementStartdate = $element.getAttribute('data-day'),
 					$elementMonth = $element.getAttribute('data-month');
 				if ($elementStartdate == $startdate && $monthdate == $elementMonth){
-					var $oldInner =  $element.innerHTML
-					$element.innerHTML= $oldInner + "here Json out";
+					var $inner = document.createElement('div');
+					$inner.innerHTML = '<form method="post" class="ms2_form"><button class="btn btn-default pull-right" type="submit" name="ms2_action" value="cart/add"><i class="glyphicon glyphicon-barcode"></i>'+$contents[$obj].title +'</button> <input type="hidden" name="id" value="'+$contents[$obj].id+'">            <input type="hidden" name="count" value="1"><input type="hidden" name="options" value="[]"></form>';
+					$element.appendChild($inner);
+					//var $oldInner =  $element.innerHTML
+					//$element.innerHTML= $oldInner + "here Json out";
 					//console.log('here JSON');
 				}
 				
@@ -155,14 +219,14 @@ function jCalendar (options){
 	var elemPrv = document.getElementById('prev');
 	elemPrv.onclick = function(Event){
 		$dateMonth--;
-		elem.printMonth($dateMonth);
+		elem.printGrid($dateMonth);
 		
 	};
 	
 	var elemNext = document.getElementById('next');
 	elemNext.onclick = function(Event){
 		$dateMonth++;
-		elem.printMonth($dateMonth);
+		elem.printGrid($dateMonth);
 		
 	}
 	

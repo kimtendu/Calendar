@@ -1,40 +1,8 @@
 <!doctype html>
 <html>
 	<head>
+		<link rel="stylesheet" href="jCalendar.css">
 
-		<style>
-			*{
-				box-sizing: border-box;
-			}
-			.row{
-				width: 700px;
-				margin: auto;
-			}
-
-			.col-md-7{
-				width: 100%;
-			}
-
-			.col-md-1{
-				width: 14.285%;
-
-			}
-
-			.col-md-7, .col-md-1{
-				position: relative;
-				float: left;
-				height: 100px;
-				border: 2px solid red;
-			}
-
-			.today{
-				background: red;
-			}
-
-			.emptyday{
-				background: gray;
-			}
-		</style>
 	</head>	
 	<body>
 		<div id="jCalendar">
@@ -47,10 +15,12 @@
 			
 			var myfirstCalendar = new jCalendar(
 				{
+				    "target"    :   "jCalendar",
 					"name"		: 	"myfirstCalendar",
-    				"title"		: 	"Custom Calendar Name",
+    				"title"		: 	"[[*longtitle]]\'s games calendar",
 					"view"		:	{
-						"calendarView"	:	"month",
+						"calendarView"	:	"week",
+						"weekTimelineClass"	: "timeline",
 						"weekStartTime"	:	"00:00:00",
 						"weekEndTime"	:	"03:00:00",
 						"dayStart"		:	0
@@ -65,34 +35,151 @@
 						"grid"	:	{
 							"dateTplClass"	: 	"someClass",
 							"TplClass" 		:	"row",
-							"RowTplClass"	:	"calendareRowTplClass",
-							"CellTplClass"	:	"calendarCellTplClass"					
+							"RowTplClass"	:	"row",
+							"CellTplClass"	:	"cell"					
 							
 						},					 
 						
 					},
 					"contents"	: 	[
-						{
-							"id"			:"123",
-							"title"			:"Event 1 ",					
-							"startdate"		:"2016-06-27T12:00:00.000Z",
-							"finishdate"	:"2016-06-27T12:00:00.000Z",
-							"enable"		:"true"
-						}, 
-						{
-							"id"			:"234",
-							"title"			:"Event 2 ",					
-							"startdate"		:"2016-06-28T12:00:00.000Z",
-							"finishdate"	:"2016-06-28T12:00:00.000Z",
-							"enable"		:"true"
-						},
-						{
-							"id"			:"345",
-							"title"			:"Event 3 ",					
-							"startdate"		:"2016-06-29T12:00:00.000Z",
-							"finishdate"	:"2016-06-29T12:00:00.000Z",
-							"enable"		:"true"
-						} 
+                						{ "title": "בלש אמיתי", 
+"id" : "9",
+"startdate": "", 
+"finishdate": "",
+"enable":"false"
+},
+{ "title": "בלש אמיתי", 
+"id" : "9",
+"startdate": "", 
+"finishdate": "",
+"enable":"false"
+},
+{ "title": "בלש אמיתי", 
+"id" : "9",
+"startdate": "2016-07-05T10:00:00", 
+"finishdate": "2016-07-05T11:00:00",
+"enable":"false"
+},
+{ "title": "בלש אמיתי", 
+"id" : "9",
+"startdate": "2016-07-05T11:15:00", 
+"finishdate": "2016-07-05T12:15:00",
+"enable":"false"
+},
+{ "title": "בלש אמיתי", 
+"id" : "9",
+"startdate": "2016-07-05T12:30:00", 
+"finishdate": "2016-07-05T13:30:00",
+"enable":"false"
+},
+{ "title": "בלש אמיתי", 
+"id" : "9",
+"startdate": "2016-07-05T13:45:00", 
+"finishdate": "2016-07-05T14:45:00",
+"enable":"false"
+},
+{ "title": "בלש אמיתי", 
+"id" : "9",
+"startdate": "2016-07-05T15:00:00", 
+"finishdate": "2016-07-05T16:00:00",
+"enable":"false"
+},
+{ "title": "בלש אמיתי", 
+"id" : "9",
+"startdate": "2016-07-05T16:15:00", 
+"finishdate": "2016-07-05T17:15:00",
+"enable":"false"
+},
+{ "title": "בלש אמיתי", 
+"id" : "9",
+"startdate": "2016-07-05T17:30:00", 
+"finishdate": "2016-07-05T18:30:00",
+"enable":"false"
+},
+{ "title": "בלש אמיתי", 
+"id" : "9",
+"startdate": "2016-07-05T18:45:00", 
+"finishdate": "2016-07-05T19:45:00",
+"enable":"false"
+},
+{ "title": "בלש אמיתי", 
+"id" : "9",
+"startdate": "2016-07-02T20:00:00", 
+"finishdate": "2016-07-02T21:00:00",
+"enable":"false"
+},
+{ "title": "בלש אמיתי", 
+"id" : "9",
+"startdate": "2016-07-02T21:15:00", 
+"finishdate": "2016-07-02T22:15:00",
+"enable":"false"
+},
+{ "title": "בלש אמיתי", 
+"id" : "9",
+"startdate": "", 
+"finishdate": "",
+"enable":"false"
+},
+{ "title": "הטינה", 
+"id" : "10",
+"startdate": "", 
+"finishdate": "",
+"enable":"false"
+},
+{ "title": "הטינה", 
+"id" : "10",
+"startdate": "2016-07-01T01:09:00", 
+"finishdate": "2016-07-01T02:09:00",
+"enable":"false"
+},
+{ "title": "הטינה", 
+"id" : "10",
+"startdate": "2016-07-01T02:24:00", 
+"finishdate": "2016-07-01T03:24:00",
+"enable":"false"
+},
+{ "title": "הטינה", 
+"id" : "10",
+"startdate": "2016-07-01T03:39:00", 
+"finishdate": "2016-07-01T04:39:00",
+"enable":"false"
+},
+{ "title": "הטינה", 
+"id" : "10",
+"startdate": "2016-07-01T04:54:00", 
+"finishdate": "2016-07-01T05:54:00",
+"enable":"false"
+},
+{ "title": "הטינה", 
+"id" : "10",
+"startdate": "2016-07-01T06:09:00", 
+"finishdate": "2016-07-01T07:09:00",
+"enable":"false"
+},
+{ "title": "הטינה", 
+"id" : "10",
+"startdate": "2016-07-01T07:24:00", 
+"finishdate": "2016-07-01T08:24:00",
+"enable":"false"
+},
+{ "title": "הטינה", 
+"id" : "10",
+"startdate": "2016-07-01T08:39:00", 
+"finishdate": "2016-07-01T09:39:00",
+"enable":"false"
+},
+{ "title": "הטינה", 
+"id" : "10",
+"startdate": "2016-07-01T09:54:00", 
+"finishdate": "2016-07-01T10:54:00",
+"enable":"false"
+},
+{ "title": "הטינה", 
+"id" : "10",
+"startdate": "2016-07-01T11:09:00", 
+"finishdate": "2016-07-01T12:09:00",
+"enable":"false"
+},
 									]
 				}
 			);

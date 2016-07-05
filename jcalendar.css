@@ -1,0 +1,52 @@
+#jCalendar{
+	margin: auto;
+	max-width: 1070px}
+
+
+#grid{
+    width: 100%;
+}
+
+.cell{
+    width: 14.28%;
+    height: 200px;
+    padding: 5px;
+    border: 1px solid #e7e7e7;
+    float: left;
+
+}
+
+.cell >div{
+    float: left;
+    width: 100%;
+
+}
+
+#next{
+    float: right;
+}
+
+#prev{
+    float: left;
+}
+
+#title{
+    margin: auto;
+    width: 300px;
+    text-align: center;
+    font-size: 20px;
+}
+
+
+/****week view **/
+.timeline{
+float: left;
+	    width: 12.5%;
+	
+}
+.timecell{
+	display: block;	
+	height: 44px;
+	text-align: center;
+	border: 1px solid #e7e7e7;
+}
