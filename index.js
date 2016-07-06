@@ -14,10 +14,9 @@ function jCalendar (options){
 	//Default options
     var elem =this, ArrDayInMonth = [];
     if (!options.startDate) options.startDate = new Date;
-    if (!options.target) options.target = 'jCalendar';
-	
+    if (!options.target) options.target = 'jCalendar';	
 	if (!options.view.weekTimelineClass) options.view.weekTimelineClass = 'timeline';
-	
+	if (!options.view.calendarView) options.view.calendarView = 'month';
 
     //here im starting to build a calendar
     var $dateYear = options.startDate.getFullYear();	
@@ -36,8 +35,7 @@ function jCalendar (options){
 	$monthdiv.classList.add(options.tpl.grid.TplClass);
 	$calendar.appendChild($monthdiv);
 
-  	//End Start Data
-	
+  	//End Start Data	
 	
 	//Class
 	
@@ -52,6 +50,9 @@ function jCalendar (options){
 		if (options.title){
 			createElementAndPush('title', options.title, divHeader)
 		}
+		createElementAndPush('monthview', 'month', divHeader);
+		createElementAndPush('weekview', 'week', divHeader);
+		
 				
 	}//print header of Calendar
 	
@@ -89,7 +90,8 @@ function jCalendar (options){
 			
 		}//Month view
 		else{
-			var $timeline = document.createElement('div');
+			var $timeline = document.createElement('div'),
+				$dayofWeek = options.startDate.getDay(); //why i can take start day? what if i need calendar for week ago
 			$timeline.classList.add(options.view.weekTimelineClass);
 			for ( var $i=0; $i<=24; $i++){
 				var $timecell = document.createElement('div');
@@ -102,18 +104,21 @@ function jCalendar (options){
 			
 			$div.appendChild($timeline);
 			
-			for ( var $i=$dateDay; $i<=$dateDay+7; $i++){
+			for ( var $i=$dateDay-$dayofWeek; $i<=$dateDay-$dayofWeek+7; $i++){
 				var $timeline = document.createElement('div'),
-					$contents = options.contents;
+					$contents = options.contents,
+					$dateThisDay = new Date($dateYear, month, $i).getDate();
+				$timeline.innerHTML='today is '+ $dateThisDay;
 				$timeline.classList.add(options.view.weekTimelineClass);
 				for ( var $obj in $contents) {
 					var $startdate = new Date($contents[$obj].startdate).getDate(),//get the day
 						$monthdate = new Date($contents[$obj].startdate).getMonth(),//get the month
 						$hoursdate = new Date($contents[$obj].startdate).getHours();//get the hours
-					if ( $monthdate==$dateMonth && $startdate==$dateDay ){
+					if ( $monthdate==$dateMonth && $startdate==$dateThisDay ){
 						var $tmp = document.createElement('div');
 						$tmp.classList.add('timecell');
-						$tmp.innerHtml= $contents[$obj].title;
+						$tmp.innerHTML = '<form method="post" class="ms2_form"><button class="btn btn-default pull-right" type="submit" name="ms2_action" value="cart/add"><i class="glyphicon glyphicon-barcode"></i>'+$contents[$obj].title +'</button> <input type="hidden" name="id" value="'+$contents[$obj].id+'">            <input type="hidden" name="count" value="1"><input type="hidden" name="options" value="[]"></form>';
+					
 						$tmp.setAttribute('data-time', $hoursdate);
 						$timeline.appendChild($tmp);	
 					}
@@ -131,12 +136,8 @@ function jCalendar (options){
 		
 		
 	}//print main Grid of calendar
-	
-
-	
-	//End Class
-	
-	
+		
+	//End Class	
 	
 	//Functions
 	function createElementAndPush($id, $text, $parent){
@@ -144,14 +145,12 @@ function jCalendar (options){
 			$div.id = $id;
 			$div.innerHTML = $text;
 			$parent.appendChild($div);		
-	}
-		
+	}		
 
     function dayInMonth(month){
         return 33 -  new Date($dateYear, month, 33).getDate();
     }; //here i can get a numbers of day in the year
    
-
     function printDay($dateDay, $dateToday, $month){
 		var div = document.createElement('div');
         //($dateDay == $dateToday) ? div.className = 'col-md-1 today' : div.className = 'col-md-1';
@@ -202,19 +201,13 @@ function jCalendar (options){
 		
 	}; // set all ivents to grid in Montth view
 	
-
 	//end functions
 	
 	//Init
-	//this.printControllers();
+
 	this.printHeader();
 	this.printGrid($dateMonth);
-	
-	//his.getJsonSh(options.contents);
-	//parseContents(options.contents);
-	//console.log(options.contents);
-	
-	
+		
 	//Controllers
 	var elemPrv = document.getElementById('prev');
 	elemPrv.onclick = function(Event){
@@ -230,7 +223,17 @@ function jCalendar (options){
 		
 	}
 	
+	var elemMonth = document.getElementById('monthview');
+	elemMonth.onclick = function(Evene){
+		options.view.calendarView = 'month';
+		elem.printGrid($dateMonth);
+	}
+	var elemWeek = document.getElementById('weekview');
+	elemWeek.onclick = function(Evene){
+		options.view.calendarView = 'week';
+		elem.printGrid($dateMonth);
+	}
+	
 	//End controllers
 	
-
 }
