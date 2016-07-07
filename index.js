@@ -17,6 +17,8 @@ function jCalendar (options){
     if (!options.target) options.target = 'jCalendar';	
 	if (!options.view.weekTimelineClass) options.view.weekTimelineClass = 'timeline';
 	if (!options.view.calendarView) options.view.calendarView = 'month';
+	
+	
 
     //here im starting to build a calendar
     var $dateYear = options.startDate.getFullYear();	
@@ -93,6 +95,11 @@ function jCalendar (options){
 			var $timeline = document.createElement('div'),
 				$dayofWeek = options.startDate.getDay(); //why i can take start day? what if i need calendar for week ago
 			$timeline.classList.add(options.view.weekTimelineClass);
+			
+			var $weekHeder = document.createElement('div');
+			$weekHeder.classList.add('timeHeader');
+			$weekHeder.innerHTML='time|day';
+			$timeline.appendChild($weekHeder);
 			for ( var $i=0; $i<=24; $i++){
 				var $timecell = document.createElement('div');
 				$timecell.classList.add('timecell');
@@ -106,9 +113,14 @@ function jCalendar (options){
 			
 			for ( var $i=$dateDay-$dayofWeek; $i<=$dateDay-$dayofWeek+7; $i++){
 				var $timeline = document.createElement('div'),
+					$weekHeder = document.createElement('div'),
 					$contents = options.contents,
-					$dateThisDay = new Date($dateYear, month, $i).getDate();
-				$timeline.innerHTML='today is '+ $dateThisDay;
+					$dateThisDay = new Date($dateYear, month, $i).getDate(),
+					$offset = 0;
+				$weekHeder.classList.add('timeHeader');
+				$weekHeder.innerHTML=$dateThisDay + ':'+month;
+				$timeline.appendChild($weekHeder);
+				//$timeline.innerHTML='today is '+ $dateThisDay;
 				$timeline.classList.add(options.view.weekTimelineClass);
 				for ( var $obj in $contents) {
 					var $startdate = new Date($contents[$obj].startdate).getDate(),//get the day
@@ -118,13 +130,18 @@ function jCalendar (options){
 						var $tmp = document.createElement('div');
 						$tmp.classList.add('timecell');
 						$tmp.innerHTML = '<form method="post" class="ms2_form"><button class="btn btn-default pull-right" type="submit" name="ms2_action" value="cart/add"><i class="glyphicon glyphicon-barcode"></i>'+$contents[$obj].title +'</button> <input type="hidden" name="id" value="'+$contents[$obj].id+'">            <input type="hidden" name="count" value="1"><input type="hidden" name="options" value="[]"></form>';
-					
+						
+						var $valOffset = ($hoursdate -$offset)*44+'px';
+						$tmp.style.marginTop = $valOffset;
 						$tmp.setAttribute('data-time', $hoursdate);
-						$timeline.appendChild($tmp);	
+						$timeline.appendChild($tmp);
+						$offset = $hoursdate+1;
 					}
-					$div.appendChild($timeline);
+					
 				
 				}
+				
+				$div.appendChild($timeline);
 			}
 			
 			$monthdiv.innerHTML='';

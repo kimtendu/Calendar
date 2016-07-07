@@ -1,6 +1,8 @@
 #jCalendar{
 	margin: auto;
-	max-width: 1070px}
+	max-width: 1070px;
+box-sizing: border-box;
+}
 
 
 #grid{
@@ -39,14 +41,24 @@
 
 
 /****week view **/
+
 .timeline{
 	float: left;
 	width: 10.5%;
+	background: url(img/week-bg.png);
+	border-left: 1px solid #eaeaea;
+	border-right: 1px solid #eaeaea;
 	
 }
-.timecell{
+.timecell, .timeHeader{
 	display: block;	
 	height: 44px;
 	text-align: center;
-	border: 1px solid #e7e7e7;
+	
+}
+.timeHeader{
+	background: #fff;
+	border-top: 1px solid #eaeaea;
+	border-bottom: 1px solid #eaeaea;
+
 }
